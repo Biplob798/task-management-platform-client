@@ -21,7 +21,7 @@ const Banner = () => {
             proven strategies for efficient task management and transform your
             to-do list into a plan for success
           </p>
-          <Link className="btn btn-primary bg-orange-600 hover:text-[105%] ">Let’s Explore</Link>
+          <Link to='/login' className="btn btn-primary bg-orange-600 hover:text-[105%] ">Let’s Explore</Link>
         </div>
       </div>
     </div>
