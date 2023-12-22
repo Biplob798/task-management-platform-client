@@ -5,16 +5,31 @@ import img3 from "../assets/coprt.jpg";
 import img4 from "../assets/bnk.jpeg";
 import img5 from "../assets/frlc.png";
 import img6 from "../assets/st.jpg";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 const ToDoCategory = () => {
+  useEffect(() => {
+    Aos.init();
+  }, []);
   return (
     <div>
       <div className="my-6 text-center text-4xl font-bold bg-slate-300 p-12">
         <h2>Who Benefits from Task Tackler's Handbook?</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 shadow-lg my-6">
-        <div className="card glass h-screen">
+        <div
+          data-aos="fade-left"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass h-screen"
+        >
           <figure>
-            <img src={img1} alt="developer!" />
+            <img
+              src={img1}
+              alt="developer!"
+              className="w-full h-96 shadow-lg"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Developer</h2>
@@ -25,9 +40,18 @@ const ToDoCategory = () => {
             </p>
           </div>
         </div>
-        <div className="card glass  h-screen">
+        <div
+          data-aos="fade-top"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass  h-screen"
+        >
           <figure>
-            <img src={img2} alt="Entrepreneurs!" />
+            <img
+              src={img2}
+              alt="Entrepreneurs!"
+              className="w-full h-96 shadow-lg"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Entrepreneurs</h2>
@@ -39,9 +63,18 @@ const ToDoCategory = () => {
             </p>
           </div>
         </div>
-        <div className="card glass  h-screen">
+        <div
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass  h-screen"
+        >
           <figure>
-            <img src={img3} alt="Corporate!" />
+            <img
+              src={img3}
+              alt="Corporate!"
+              className="w-full h-96 shadow-lg"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Corporate</h2>
@@ -52,9 +85,18 @@ const ToDoCategory = () => {
             </p>
           </div>
         </div>
-        <div className="card glass  h-screen">
+        <div
+          data-aos="fade-left"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass  h-screen"
+        >
           <figure>
-            <img src={img6} alt="Students !" />
+            <img
+              src={img6}
+              alt="Students !"
+              className="w-full h-96 shadow-lg"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Students </h2>
@@ -66,9 +108,14 @@ const ToDoCategory = () => {
             </p>
           </div>
         </div>
-        <div className="card glass  h-screen">
+        <div
+          data-aos="fade-bottom"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass  h-screen"
+        >
           <figure>
-            <img src={img4} alt="Bankers !" />
+            <img src={img4} alt="Bankers !" className="w-full h-96 shadow-lg" />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Bankers </h2>
@@ -79,9 +126,18 @@ const ToDoCategory = () => {
             </p>
           </div>
         </div>
-        <div className="card glass  h-screen">
+        <div
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          className="card glass  h-screen"
+        >
           <figure>
-            <img src={img5} alt="Freelancers!" />
+            <img
+              src={img5}
+              alt="Freelancers!"
+              className="w-full h-96 shadow-lg"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title font-bold">Freelancers</h2>

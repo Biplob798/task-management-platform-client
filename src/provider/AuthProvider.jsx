@@ -1,84 +1,101 @@
-/* eslint-disable react/prop-types */
-import { createContext, useEffect, useState } from "react";
+// AuthProvider.js
+import PropTypes from "prop-types";
 import {
+  GithubAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { createContext, useEffect, useState } from "react";
+import useAxiosPublic from "../hooks/usePablic";
 import auth from "../config/firebase.config";
 
-export const AuthContext = createContext({});
-
-const googleProvider = new GoogleAuthProvider();
+export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
+
+  const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
-    setLoading(true);
+    setIsLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const signIn = (email, password) => {
-    setLoading(true);
+  const signInUser = (email, password) => {
+    setIsLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signInWithGoogle = () => {
-    setLoading(true);
-    return signInWithPopup(auth, googleProvider);
-  };
-
-  const resetPassword = (email) => {
-    setLoading(true);
-    return sendPasswordResetEmail(auth, email);
-  };
-
-  const logOut = async () => {
-    setLoading(true);
-    return signOut(auth);
-  };
-
-  const updateUserProfile = (name, photo) => {
+  const handleUpdateProfile = (name, photo) => {
+    setIsLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
     });
   };
 
-  // onAuthStateChange
+  const logOut = () => {
+    setIsLoading(true);
+    return signOut(auth);
+  };
+
+  const googleLogin = async () => {
+    setIsLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+
+  const githubLogin = () => {
+    setIsLoading(true);
+    signInWithPopup(auth, new GithubAuthProvider());
+  };
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("CurrentUser-->", currentUser);
-      setLoading(false);
+      if (currentUser) {
+        const userInfo = { email: currentUser?.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+            setIsLoading(false);
+          }
+        });
+      } else {
+        localStorage.removeItem("access-token");
+        setIsLoading(false);
+      }
     });
+
     return () => {
-      return unsubscribe();
+      return unSubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
-    user,
-    loading,
-    setLoading,
     createUser,
-    signIn,
-    signInWithGoogle,
-    resetPassword,
+    signInUser,
+    user,
+    googleLogin,
+    githubLogin,
+    handleUpdateProfile,
     logOut,
-    updateUserProfile,
+    isLoading,
   };
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export default AuthProvider;
