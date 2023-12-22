@@ -3,11 +3,11 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
-// import useAxiosPublic from "../../hooks/usePublic"; // Import the useAxiosPublic hook if needed
+import useAxiosPublic from "../../hooks/usePablic";
 
 const SocialLogin = () => {
   const { googleLogin } = useAuth() || {};
-  // const axiosPublic = useAxiosPublic(); // Import the useAxiosPublic hook if needed
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
@@ -16,15 +16,14 @@ const SocialLogin = () => {
         console.log(result.user);
         toast.success("User logged in successfully");
 
-        // Uncomment the following block if you want to perform additional actions, like posting user information to a server
-        // const userInfo = {
-        //   email: result.user?.email,
-        //   name: result.user?.displayName,
-        // };
-        // axiosPublic.post("/users", userInfo).then((res) => {
-        //   console.log(res.data);
-        //   navigate("/");
-        // });
+        const userInfo = {
+          email: result.user?.email,
+          name: result.user?.displayName,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          console.log(res.data);
+          navigate("/");
+        });
 
         navigate("/dashboard");
       })
