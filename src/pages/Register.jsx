@@ -17,7 +17,6 @@ const SignUp = () => {
     register,
     handleSubmit,
     reset,
-
     formState: { errors },
   } = useForm();
 
